@@ -33,8 +33,19 @@ export const roleOptions = [
 ];
 
 export const initialFoodDonationForm = {
+  category: "Cooked Food",
   type: "Veg",
   meals: [],
   quantity: 10,
   preparedHours: 0,
+};
+
+export const initialDonationContactForm = {
+  ngoId: null,
+  ngoName: "",
+  location: "",
+  phone: "",
+  date: "",
+  time: "",
+  acceptedGuidelines: false,
 };

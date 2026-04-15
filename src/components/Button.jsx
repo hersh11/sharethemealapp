@@ -6,7 +6,7 @@ const Button = ({ text, to, type = "button", onClick, disabled = false }) => {
 
   if (to) {
     return (
-      <Link aria-disabled={disabled} className={className} to={to}>
+      <Link aria-disabled={disabled} className={className} onClick={onClick} to={to}>
         {text}
       </Link>
     );

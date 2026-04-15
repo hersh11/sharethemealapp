@@ -30,9 +30,21 @@ export const useAuth = () => {
     }
   }, []);
 
+  const loginWithGoogle = useCallback(async () => {
+    try {
+      const user = await authService.loginWithGoogle();
+
+      if (user) {
+        setState({ isLoading: false, user });
+      }
+    } catch (error) {
+      setState({ isLoading: false, user: null });
+    }
+  }, []);
+
   return {
     ...state,
-    loginWithGoogle: authService.loginWithGoogle,
+    loginWithGoogle,
     logout,
     refreshUser: loadUser,
   };

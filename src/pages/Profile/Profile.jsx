@@ -3,7 +3,7 @@ import { FiSettings, FiHelpCircle, FiCalendar, FiClock } from "react-icons/fi";
 import BottomNavbar from "../../components/BottomNavbar";
 
 const Profile = (props) => {
-  const { user, logout } = props;
+  const { user, logout, donations = [] } = props;
   const profileImage = user?.profilePic || "https://via.placeholder.com/96?text=User";
 
   return (
@@ -17,7 +17,7 @@ const Profile = (props) => {
           </div>
           <div className={styles.title}>
             <h2>Hello {user.name}!</h2>
-            <p className={styles.edit}>Edit</p>
+            <p className={styles.edit}>{donations.length} donations posted</p>
           </div>
         </div>
 

@@ -4,7 +4,7 @@ import BottomNavbar from "../../components/BottomNavbar";
 import { Link } from "react-router-dom";
 import styles from "./allNgos.module.css";
 
-const AllNGOS = ({ data = [] }) => {
+const AllNGOS = ({ data = [], isLoading, error }) => {
   const ngos = data.filter(Boolean);
 
   return (
@@ -14,11 +14,14 @@ const AllNGOS = ({ data = [] }) => {
       <div className={styles.main}>
         <h2 className={styles.headline}>Choose where you want to donate</h2>
         <div className={styles.list}>
+          {isLoading ? <p>Loading NGOs...</p> : null}
+          {!isLoading && error ? <p>{error}</p> : null}
           {ngos.map((ngo) => (
             <Link key={ngo.id} to={`/all/${ngo.id}`}>
               <NGOCard data={ngo} />
             </Link>
           ))}
+          {!isLoading && !error && ngos.length === 0 ? <p>No NGOs are available right now.</p> : null}
         </div>
       </div>
     </>

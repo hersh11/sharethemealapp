@@ -7,18 +7,12 @@ import Button from "../../components/Button";
 import { useMemo, useState } from "react";
 import { useHistory } from "react-router-dom";
 
-const ConfirmFoodDetails = ({ foodData }) => {
+const ConfirmFoodDetails = ({ foodData, donationContact, setDonationContact }) => {
   const history = useHistory();
-  const [formValues, setFormValues] = useState({
-    location: "",
-    phone: "",
-    date: "",
-    time: "",
-    acceptedGuidelines: false,
-  });
+  const [error, setError] = useState("");
 
   const updateField = (field, value) => {
-    setFormValues((currentValues) => ({
+    setDonationContact((currentValues) => ({
       ...currentValues,
       [field]: value,
     }));
@@ -34,11 +28,27 @@ const ConfirmFoodDetails = ({ foodData }) => {
   );
 
   const canSubmit =
-    formValues.location.trim() &&
-    formValues.phone.trim() &&
-    formValues.date &&
-    formValues.time &&
-    formValues.acceptedGuidelines;
+    donationContact.location.trim() &&
+    donationContact.phone.trim() &&
+    donationContact.date &&
+    donationContact.time &&
+    donationContact.acceptedGuidelines;
+
+  const handleContinue = () => {
+    if (!foodData.meals.length || !foodData.category) {
+      setError("Please complete your food details before continuing.");
+      history.push("/foodDetails");
+      return;
+    }
+
+    if (!canSubmit) {
+      setError("Please complete all donation details and accept the food guidelines.");
+      return;
+    }
+
+    setError("");
+    history.push("/delivery");
+  };
 
   return (
     <>
@@ -48,6 +58,7 @@ const ConfirmFoodDetails = ({ foodData }) => {
         <p className={styles.heading}>Confirm food details</p>
         <div className={styles.top_section}>
           <div className={styles.left}>
+            <p>{foodData.category}</p>
             <p>{foodData.type}</p>
             <p>{summary.mealText}</p>
             <p>{summary.quantityText}</p>
@@ -66,7 +77,7 @@ const ConfirmFoodDetails = ({ foodData }) => {
           <GoLocation />
           <input
             type="text"
-            value={formValues.location}
+            value={donationContact.location}
             onChange={(event) => updateField("location", event.target.value)}
             placeholder="Sector 15, MIDC Road, Spine City, Pune"
           />
@@ -77,7 +88,7 @@ const ConfirmFoodDetails = ({ foodData }) => {
           <BsTelephone />
           <input
             type="tel"
-            value={formValues.phone}
+            value={donationContact.phone}
             onChange={(event) => updateField("phone", event.target.value)}
             placeholder="9876383735"
           />
@@ -87,7 +98,7 @@ const ConfirmFoodDetails = ({ foodData }) => {
         <div className={styles.input_box}>
           <input
             type="date"
-            value={formValues.date}
+            value={donationContact.date}
             onChange={(event) => updateField("date", event.target.value)}
           />
         </div>
@@ -95,14 +106,14 @@ const ConfirmFoodDetails = ({ foodData }) => {
         <div className={[styles.input_box, styles.bottom_input].join(" ")}>
           <input
             type="time"
-            value={formValues.time}
+            value={donationContact.time}
             onChange={(event) => updateField("time", event.target.value)}
           />
         </div>
 
         <div className={styles.guideline}>
           <input
-            checked={formValues.acceptedGuidelines}
+            checked={donationContact.acceptedGuidelines}
             id="guidelines"
             onChange={(event) =>
               updateField("acceptedGuidelines", event.target.checked)
@@ -113,11 +124,12 @@ const ConfirmFoodDetails = ({ foodData }) => {
             All food donated should follow the guidelines.
           </label>
         </div>
+        {error ? <p className={styles.error}>{error}</p> : null}
         <div className={styles.btn}>
           <Button
             disabled={!canSubmit}
-            onClick={() => history.push("/delivery")}
-            text="Post"
+            onClick={handleContinue}
+            text="Continue"
           />
         </div>
       </div>

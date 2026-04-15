@@ -85,3 +85,9 @@
     margin-top: 24px;
     text-align: center;
 }
+
+.error {
+  margin-top: 16px;
+  color: #b42318;
+  font-size: 14px;
+}

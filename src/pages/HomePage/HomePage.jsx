@@ -7,7 +7,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { campaignImages } from "../../constants/assets";
 
-const HomePage = ({ data = [] }) => {
+const HomePage = ({ data = [], isLoading, error }) => {
   const [query, setQuery] = useState("");
 
   const filteredNgos = useMemo(() => {
@@ -53,6 +53,8 @@ const HomePage = ({ data = [] }) => {
             </Link>
           </div>
           <div className={styles.round_images}>
+            {isLoading ? <p>Loading NGOs...</p> : null}
+            {!isLoading && error ? <p>{error}</p> : null}
             {filteredNgos.map((ngo) => (
               <Link key={ngo.id} to={`/all/${ngo.id}`}>
                 <img
@@ -80,6 +82,9 @@ const HomePage = ({ data = [] }) => {
               <NGOCard data={ngo} />
             </Link>
           ))}
+          {!isLoading && !error && featuredNgos.length === 0 ? (
+            <p>No NGOs match your search yet.</p>
+          ) : null}
         </div>
         <div className={styles.upcoming_campaigns}>
           <div className={styles.top}>
@@ -115,12 +120,12 @@ const HomePage = ({ data = [] }) => {
           <div className={styles.nearby_images}>
             {nearbyNgos.map((ngo) => (
               <Link key={ngo.id} to={`/all/${ngo.id}`}>
-                  <img
+                <img
                   className={styles.nearby_image}
                   src={ngo.image}
                   alt={ngo.NGOName}
                   loading="lazy"
-                  />
+                />
               </Link>
             ))}
           </div>

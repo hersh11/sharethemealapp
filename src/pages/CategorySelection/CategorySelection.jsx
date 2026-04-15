@@ -4,7 +4,7 @@ import DonateFoodNavbar from "../../components/DonateFoodNavbar";
 import { Link } from "react-router-dom";
 import { categoryOptions } from "../../constants/donation";
 
-const CategorySelection = () => {
+const CategorySelection = ({ setFoodData }) => {
   return (
     <>
       <DonateFoodNavbar link="/donationType" />
@@ -14,7 +14,16 @@ const CategorySelection = () => {
         <h1>Select the Category</h1>
         <div className={styles.image_section}>
           {categoryOptions.map((option) => (
-            <Link key={option.label} to={option.to}>
+            <Link
+              key={option.label}
+              onClick={() =>
+                setFoodData((currentData) => ({
+                  ...currentData,
+                  category: option.label,
+                }))
+              }
+              to={option.to}
+            >
               <img alt={option.label} src={option.image} />
             </Link>
           ))}

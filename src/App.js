@@ -15,14 +15,24 @@ import { Switch, Route } from "react-router-dom";
 import ConfirmFoodDetails from "./pages/ConfirmFoodDetails";
 import { useState, useEffect } from "react";
 import { initialFoodDonationForm } from "./constants/donation";
+import { initialDonationContactForm } from "./constants/donation";
 import { useAuth } from "./hooks/useAuth";
 import { useNgoData } from "./hooks/useNgoData";
+import { useDonations } from "./hooks/useDonations";
+import Activity from "./pages/Activity";
 
 function App() {
   const [isSplashVisible, setSplashVisible] = useState(true);
   const [foodData, setFoodData] = useState(initialFoodDonationForm);
+  const [donationContact, setDonationContact] = useState(initialDonationContactForm);
   const { isLoading: isUserLoading, user, logout, loginWithGoogle } = useAuth();
-  const { ngos } = useNgoData();
+  const { ngos, isLoading: isNgoLoading, error: ngoError } = useNgoData();
+  const {
+    donations,
+    isLoading: isDonationsLoading,
+    error: donationsError,
+    createDonation,
+  } = useDonations();
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
@@ -50,23 +60,29 @@ function App() {
     <div className="App">
       <Switch>
         <Route exact path="/profile">
-          <Profile user={user} logout={logout} />
+          <Profile donations={donations} user={user} logout={logout} />
+        </Route>
+
+        <Route exact path="/activity">
+          <Activity donations={donations} error={donationsError} isLoading={isDonationsLoading} />
         </Route>
 
         <Route exact path="/">
-          <HomePage data={ngos} />
+          <HomePage data={ngos} error={ngoError} isLoading={isNgoLoading} />
         </Route>
 
         <Route path="/category" exact>
-          <CategorySelection />
+          <CategorySelection
+            setFoodData={setFoodData}
+          />
         </Route>
 
         <Route path="/all" exact>
-          <AllNGOS data={ngos} />
+          <AllNGOS data={ngos} error={ngoError} isLoading={isNgoLoading} />
         </Route>
 
         <Route path="/all/:id" exact>
-          <NGOPage data={ngos} />
+          <NGOPage data={ngos} setDonationContact={setDonationContact} />
         </Route>
 
         <Route path="/foodDetails" exact>
@@ -74,7 +90,15 @@ function App() {
         </Route>
 
         <Route path="/delivery" exact>
-          <DeliverSelection />
+          <DeliverSelection
+            createDonation={createDonation}
+            donationContact={donationContact}
+            foodData={foodData}
+            resetDonationFlow={() => {
+              setFoodData(initialFoodDonationForm);
+              setDonationContact(initialDonationContactForm);
+            }}
+          />
         </Route>
 
         <Route path="/chooseRole" exact>
@@ -86,7 +110,11 @@ function App() {
         </Route>
 
         <Route path="/confirmFoodDetails" exact>
-          <ConfirmFoodDetails foodData={foodData} />
+          <ConfirmFoodDetails
+            donationContact={donationContact}
+            foodData={foodData}
+            setDonationContact={setDonationContact}
+          />
         </Route>
       </Switch>
     </div>

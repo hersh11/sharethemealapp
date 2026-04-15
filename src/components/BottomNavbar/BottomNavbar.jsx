@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 
 const navItems = [
   { to: "/", label: "Home", icon: BiHomeAlt, exact: true },
-  { to: "/", label: "Activity", icon: RiTimeLine, exact: true },
+  { to: "/activity", label: "Activity", icon: RiTimeLine },
   { to: "/donationType", label: "Donate", icon: BiDonateHeart },
   { label: "Hunger Spot", icon: GrLocation, disabled: true },
   { to: "/profile", label: "Profile", icon: CgProfile },

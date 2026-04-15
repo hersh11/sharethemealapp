@@ -8,7 +8,7 @@ import Button from "../../components/Button";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
-const NGOPage = ({ data = [] }) => {
+const NGOPage = ({ data = [], setDonationContact }) => {
   const { id } = useParams();
   const ngoData = useMemo(
     () => data.find((ngo) => String(ngo.id) === id) || null,
@@ -59,7 +59,17 @@ const NGOPage = ({ data = [] }) => {
             </div>
           </div>
           <div className={styles.button}>
-            <Button text="Donate Now" to="/category" />
+            <Button
+              onClick={() =>
+                setDonationContact((currentContact) => ({
+                  ...currentContact,
+                  ngoId: ngoData.id,
+                  ngoName: ngoData.NGOName,
+                }))
+              }
+              text="Donate Now"
+              to="/category"
+            />
           </div>
         </div>
 
