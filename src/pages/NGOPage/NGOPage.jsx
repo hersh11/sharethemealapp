@@ -5,12 +5,27 @@ import { HiBadgeCheck } from "react-icons/hi";
 import BottomNavbar from "../../components/BottomNavbar";
 import DonateFoodNavbar from "../../components/DonateFoodNavbar";
 import Button from "../../components/Button";
-import { useParams } from "react-router";
+import { useMemo } from "react";
+import { useParams } from "react-router-dom";
 
-const NGOPage = (props) => {
-  const { data } = props;
+const NGOPage = ({ data = [] }) => {
   const { id } = useParams();
-  const ngoData = data[parseInt(id)];
+  const ngoData = useMemo(
+    () => data.find((ngo) => String(ngo.id) === id) || null,
+    [data, id]
+  );
+
+  if (!ngoData) {
+    return (
+      <>
+        <DonateFoodNavbar link="/all" />
+        <BottomNavbar />
+        <div className={styles.main}>
+          <p>We could not find this NGO.</p>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -19,7 +34,7 @@ const NGOPage = (props) => {
       <div className={styles.main}>
         <div className={styles.ngo_details}>
           <div className={styles.image_section}>
-            <img src={ngoData.image} alt="ngo image" />
+            <img src={ngoData.image} alt={ngoData.NGOName} />
             <div className={styles.title}>
               <p>{ngoData.NGOName}</p>
               <HiBadgeCheck className={styles.icon} />
@@ -44,7 +59,7 @@ const NGOPage = (props) => {
             </div>
           </div>
           <div className={styles.button}>
-            <Button text="Donate Now" link="/category" />
+            <Button text="Donate Now" to="/category" />
           </div>
         </div>
 

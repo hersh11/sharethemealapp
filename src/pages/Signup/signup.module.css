@@ -1,57 +1,37 @@
-.signup_btn {
-  height: 48px;
-  width: 368px;
-  border-radius: 10px;
-  padding: 8px 130px;
-  background: #fb7e00;
-  border-radius: 10px;
-  border: none;
-  color: white;
-  text-align: center;
-  letter-spacing: 0.0015em;
-  color: rgba(255, 255, 255, 0.45);
-  font-size: 18px;
+.main {
+  min-height: 100vh;
+  padding: 48px 22px 22px;
+  background: #ffffff;
 }
 
 .main h1 {
   text-align: center;
-  font-size: 24px;
+  font-size: 28px;
   padding-top: 30px;
-}
-
-.form input {
-  height: 54px;
-  width: 367px;
-  border-radius: 8px;
-  background: #f8f8f8;
-  border: 1px solid #9fa1a3;
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 30px;
 }
 
 .lower {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 24px;
 }
+
 .signUpWith {
   margin-top: 20px;
   margin-bottom: 20px;
+  text-align: center;
+  color: #6e7275;
 }
 
 .google {
   height: 56px;
-  width: 273px;
+  width: 100%;
+  max-width: 320px;
   background: #ffffff;
   box-shadow: 15px 0px 30px rgba(211, 212, 226, 0.25);
   border-radius: 12px;
+  border: 0;
   display: flex;
   gap: 20px;
   align-items: center;
@@ -86,4 +66,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.google:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }

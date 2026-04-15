@@ -1,12 +1,15 @@
 .navbar {
   bottom: 0;
   position: fixed;
-  width: 414px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(414px, 100vw);
   background-color: white;
   padding: 8px 0;
   display: flex;
   justify-content: space-between;
   border-top: 1px solid #f8f8f8;
+  z-index: 3;
 }
 
 .link {
@@ -15,6 +18,7 @@
   align-items: center;
   gap: 6px;
   width: 76px;
+  color: #6e7275;
 }
 
 .icon {
@@ -31,4 +35,8 @@
 .disable {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.active {
+  color: #fb7e00;
 }

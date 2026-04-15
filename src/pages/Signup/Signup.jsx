@@ -2,53 +2,29 @@ import styles from "./signup.module.css";
 import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 
-const Signup = () => {
-  const login = () => {
-    window.location.href = `${process.env.REACT_APP_BACKEND_URL}/auth/google`;
-  };
-
+const Signup = ({ onGoogleLogin }) => {
   return (
     <div className={styles.main}>
-      <h1>Sign up</h1>
-      <div className={styles.form}>
-        <input type="text" id="name" name="name" placeholder="Name" />
-        <input
-          type="text"
-          id="email"
-          name="email"
-          placeholder="Email Address "
-        />
-        <input
-          type="text"
-          id="password"
-          name="password"
-          placeholder="Password"
-        />
-        <input
-          type="text"
-          id="password"
-          name="password"
-          placeholder="Confirm Password"
-        />
-        <button className={styles.signup_btn}>Sign up</button>
-      </div>
+      <h1>Welcome back</h1>
+      <p className={styles.signUpWith}>
+        Sign in to browse NGOs, post food donations, and manage pickups.
+      </p>
 
       <div className={styles.or}>
         <div className={styles.number}>
-          <p>or</p>
+          <p>Continue with</p>
         </div>
       </div>
 
       <div className={styles.lower}>
-        <p className={styles.signUpWith}>Sign up with</p>
-        <div onClick={login} className={styles.google}>
+        <button className={styles.google} onClick={onGoogleLogin} type="button">
           <FcGoogle className={styles.iconGoogle} />
           <p>Login with Google</p>
-        </div>
-        <div className={styles.google}>
+        </button>
+        <button className={styles.google} disabled type="button">
           <BsFacebook className={styles.iconFb} />
-          <p>Login with Facebook</p>
-        </div>
+          <p>Facebook login coming soon</p>
+        </button>
       </div>
     </div>
   );

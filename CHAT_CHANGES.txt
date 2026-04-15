@@ -1,0 +1,48 @@
+ShareTheMeal App Change Log
+Updated: 2026-04-15
+
+This file summarizes the major code review findings and refactor work completed through this chat history.
+It is intended to be updated in future chats as more changes are made.
+
+1. Initial Repository Review
+- Scanned the repo structure, source files, and package manifest.
+- Identified broken or risky areas in routing, form state, image paths, JSX usage, and dependency health.
+- Confirmed that the original build was broken on Windows because the build script used Unix-only syntax: `CI=false react-scripts build`.
+- Confirmed that the older CRA/webpack toolchain was also incompatible with the installed Node 20 runtime.
+
+2. Major Source Issues Found
+- NGO detail pages depended on array indexes instead of stable ids, which could render the wrong NGO or crash when data order changed.
+- The food donation flow stored only a single `meal` value even though the UI allowed multiple checkboxes.
+- Range sliders in the food form used the wrong event field (`e.value` instead of `e.target.value`), so state updates were broken.
+- Several components used invalid or weak React patterns such as missing keys, `for` instead of `htmlFor`, stray `console.log`, and uncleaned timer logic.
+- Several pages referenced images using `./images/...`, which is fragile for client-side routed pages.
+- Styling was split between CSS modules and inline `<style jsx>` blocks, making the codebase inconsistent and harder to maintain.
+- The signup screen was mostly a placeholder and did not behave like a real auth flow.
+
+3. Refactor Work Completed
+- Refactored app-level data flow in `src/App.js` to simplify control flow and reduce responsibilities.
+- Added `src/services/api.js` to centralize backend requests using `fetch`.
+- Added `src/hooks/useAuth.js` and `src/hooks/useNgoData.js` to separate auth and NGO loading concerns from the app shell.
+- Added `src/constants/assets.js` and `src/constants/donation.js` to centralize repeated static data and options.
+- Reworked the donation flow so meal selection, quantity, and prepared-hours state are handled correctly.
+- Reworked NGO page lookup to use route ids safely instead of array positions.
+- Improved homepage rendering to avoid hard-coded data indexes and to support filtering more safely.
+- Replaced remaining inline style patterns with CSS module files for better readability and consistency.
+- Added reusable styling for shared UI pieces such as the main button and donate navbar.
+- Cleaned up a dead/unused page file (`src/pages/Role/Roles.jsx`).
+- Removed leftover debug logging from the introductory card component.
+
+4. Dependency and Build Changes
+- Removed unused direct dependencies `axios` and `styled-jsx`.
+- Upgraded `react-scripts` from `4.0.3` to `5.0.1`.
+- Fixed the build script in `package.json` so it works on Windows.
+- Reinstalled dependencies and updated `package-lock.json`.
+- Reduced the npm audit count significantly compared with the original state, though some transitive CRA-era vulnerabilities still remain.
+
+5. Current Verified Status
+- Production build now succeeds with `npm run build`.
+- The app structure is clearer and easier to extend than the original version.
+- The codebase still has future upgrade opportunities, especially around older React/React Router versions and remaining transitive dependency warnings from Create React App.
+
+6. Future Update Note
+- This file should be appended with a new dated section whenever future chats make code, dependency, architecture, or tooling changes.

@@ -1,12 +1,12 @@
 .App {
-  width: 414px;
+  width: min(414px, 100vw);
   min-height: 100vh;
   margin: auto;
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
 }
 
 body {
-  background-color: black;
+  background-color: #111111;
 }
 
 * {

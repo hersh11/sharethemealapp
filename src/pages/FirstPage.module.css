@@ -1,0 +1,13 @@
+.wrapper {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background-color: #f78000;
+}
+
+.logo {
+  width: 230px;
+  max-width: 70vw;
+  height: auto;
+}

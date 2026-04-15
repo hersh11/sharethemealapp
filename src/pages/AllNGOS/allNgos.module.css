@@ -1,0 +1,19 @@
+.main {
+  min-height: calc(100vh - 130px);
+  margin-bottom: 80px;
+  padding: 22px;
+  background-color: #ffffff;
+}
+
+.headline {
+  margin-bottom: 22px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.list {
+  display: grid;
+  gap: 14px;
+}

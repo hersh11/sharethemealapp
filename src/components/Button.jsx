@@ -1,25 +1,21 @@
 import { Link } from "react-router-dom";
+import styles from "./Button.module.css";
 
-const Button = ({ text, link }) => {
-  return (
-    <>
-      <Link className="button" to={link}>
+const Button = ({ text, to, type = "button", onClick, disabled = false }) => {
+  const className = [styles.button, disabled ? styles.disabled : ""].join(" ").trim();
+
+  if (to) {
+    return (
+      <Link aria-disabled={disabled} className={className} to={to}>
         {text}
       </Link>
+    );
+  }
 
-      <style jsx>
-        {`
-          .button {
-            background: #fb7e00;
-            border-radius: 10px;
-            text-decoration: none;
-            color: white;
-            font-weight: 500;
-            padding: 8px 130px;
-          }
-        `}
-      </style>
-    </>
+  return (
+    <button className={className} disabled={disabled} onClick={onClick} type={type}>
+      {text}
+    </button>
   );
 };
 

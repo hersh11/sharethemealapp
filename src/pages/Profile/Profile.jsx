@@ -4,6 +4,7 @@ import BottomNavbar from "../../components/BottomNavbar";
 
 const Profile = (props) => {
   const { user, logout } = props;
+  const profileImage = user?.profilePic || "https://via.placeholder.com/96?text=User";
 
   return (
     <>
@@ -12,7 +13,7 @@ const Profile = (props) => {
         <h1>Profile</h1>
         <div className={styles.upper}>
           <div className={styles.addImage}>
-            <img src={user.profilePic} alt="" />
+            <img src={profileImage} alt={user.name} />
           </div>
           <div className={styles.title}>
             <h2>Hello {user.name}!</h2>
