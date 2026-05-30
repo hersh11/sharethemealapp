@@ -46,7 +46,7 @@ What is still not fully production-ready:
 - No real donation submission API yet
 - Google auth requires a backend implementation
 
-## Getting Started
+## Installation
 
 ### 1. Install dependencies
 
@@ -54,7 +54,17 @@ What is still not fully production-ready:
 npm install
 ```
 
-### 2. Start the app
+### 2. Configure environment
+
+Copy `.env.example` to `.env.local` only if you want connected backend mode:
+
+```bash
+cp .env.example .env.local
+```
+
+For local demo mode, leave `REACT_APP_BACKEND_URL` blank or omit `.env.local`.
+
+### 3. Start the app
 
 ```bash
 npm start
@@ -66,11 +76,19 @@ The app will run at:
 http://localhost:3000
 ```
 
-### 3. Create a production build
+### 4. Create a production build
 
 ```bash
 npm run build
 ```
+
+## Environment Variables
+
+| Variable | Required | Description |
+| --- | --- | --- |
+| `REACT_APP_BACKEND_URL` | No | Optional backend API base URL, such as `http://localhost:5000`. |
+
+Do not place OAuth secrets, database credentials, or server tokens in this React app.
 
 ## Running Modes
 
@@ -141,7 +159,7 @@ Important:
 
 ## Scripts
 
-From [package.json](/C:/Users/kitka/Desktop/Projects/sharethemealapp/package.json):
+From `package.json`:
 
 - `npm start` - run the development server
 - `npm run build` - create a production build
@@ -168,6 +186,37 @@ public/
 - `src/hooks/useNgoData.js` loads NGO data
 - `src/hooks/useDonations.js` manages donation history
 
+## Screenshots
+
+Add screenshots here before sharing the repository with recruiters or demo reviewers.
+
+## Deployment
+
+Recommended platform: Vercel or Netlify.
+
+### Vercel
+
+1. Import this GitHub repository into Vercel.
+2. Use `npm run build` as the build command.
+3. Use `build` as the output directory.
+4. Add `REACT_APP_BACKEND_URL` only if using a deployed backend.
+5. Deploy and verify the app opens at the generated Vercel URL.
+
+### Netlify
+
+1. Import this GitHub repository into Netlify.
+2. Set build command to `npm run build`.
+3. Set publish directory to `build`.
+4. Add `REACT_APP_BACKEND_URL` only if using a deployed backend.
+
+Common issue: client-side routes may 404 on refresh. If that happens, add a Netlify `_redirects` file or Vercel SPA fallback config.
+
+## Known Limitations
+
+- Demo mode stores user and donation data in browser `localStorage`.
+- Connected mode requires a separate backend for Google OAuth, sessions, and persistent storage.
+- Donation submission is frontend-local unless a backend endpoint is added.
+
 ## Suggested Next Steps
 
 - Add a real backend for donations, users, and NGOs
@@ -186,6 +235,10 @@ If you want to extend the project, a good order is:
 3. Implement real donation APIs
 4. Add tests around the main donation flow
 
+## Credits
+
+Built as a college demo project for food donation coordination and NGO discovery.
+
 ## License
 
-This project is licensed under the terms in [LICENSE](/C:/Users/kitka/Desktop/Projects/sharethemealapp/LICENSE).
+This project is licensed under the terms in `LICENSE`.

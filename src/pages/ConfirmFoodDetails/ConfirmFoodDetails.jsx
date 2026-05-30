@@ -27,12 +27,13 @@ const ConfirmFoodDetails = ({ foodData, donationContact, setDonationContact }) =
     [foodData]
   );
 
-  const canSubmit =
+  const canSubmit = Boolean(
     donationContact.location.trim() &&
-    donationContact.phone.trim() &&
-    donationContact.date &&
-    donationContact.time &&
-    donationContact.acceptedGuidelines;
+      donationContact.phone.trim() &&
+      donationContact.date &&
+      donationContact.time &&
+      donationContact.acceptedGuidelines
+  );
 
   const handleContinue = () => {
     if (!foodData.meals.length || !foodData.category) {
@@ -97,6 +98,7 @@ const ConfirmFoodDetails = ({ foodData, donationContact, setDonationContact }) =
         <p className={styles.heading}>By when you can donate</p>
         <div className={styles.input_box}>
           <input
+            aria-label="Pickup date"
             type="date"
             value={donationContact.date}
             onChange={(event) => updateField("date", event.target.value)}
@@ -105,6 +107,7 @@ const ConfirmFoodDetails = ({ foodData, donationContact, setDonationContact }) =
 
         <div className={[styles.input_box, styles.bottom_input].join(" ")}>
           <input
+            aria-label="Pickup time"
             type="time"
             value={donationContact.time}
             onChange={(event) => updateField("time", event.target.value)}
