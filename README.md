@@ -1,244 +1,113 @@
-# ShareTheMeal App
+# ShareTheMeal app
 
-A mobile-first food donation frontend built with React. The app helps donors browse NGOs, create food donation posts, choose delivery or pickup, and review donation activity.
+ShareTheMeal is a mobile-first React frontend for food donation coordination. Donors can browse NGOs, create food donation posts, choose delivery or pickup, and review their donation activity.
 
-This repository currently works in two modes:
-
-- Demo mode: no backend required, uses local mock data and `localStorage`
-- Connected mode: uses a backend URL for auth and NGO data
+The app works in demo mode without a backend. It can also connect to a backend API for auth and NGO data when `REACT_APP_BACKEND_URL` is configured.
 
 ## Features
 
 - Splash and sign-in flow
-- NGO browsing and search
+- Local demo login
+- NGO listing and search
 - NGO detail pages
-- Donation type and food category selection
-- Food details form
+- Donation type selection
+- Food category and food details forms
 - Donation confirmation flow
 - Delivery or pickup selection
-- Activity screen for posted donations
+- Activity history stored in the browser
 - Profile screen with donation count
 
-## Tech Stack
+## Tech stack
 
 - React 17
 - React Router DOM v5
 - CSS Modules
 - React Icons
-- Create React App (`react-scripts`)
+- Create React App
 
-## Project Status
+## Run locally
 
-The frontend is runnable and builds successfully.
-
-What works now:
-
-- Full frontend flow for posting a donation
-- Local demo login
-- Local mock NGO data
-- Donation activity saved in browser storage
-- Production build with `npm run build`
-
-What is still not fully production-ready:
-
-- No real backend included in this repository
-- No real database persistence
-- No real donation submission API yet
-- Google auth requires a backend implementation
-
-## Installation
-
-### 1. Install dependencies
+Install dependencies:
 
 ```bash
 npm install
 ```
 
-### 2. Configure environment
-
-Copy `.env.example` to `.env.local` only if you want connected backend mode:
-
-```bash
-cp .env.example .env.local
-```
-
-For local demo mode, leave `REACT_APP_BACKEND_URL` blank or omit `.env.local`.
-
-### 3. Start the app
+Start the app:
 
 ```bash
 npm start
 ```
 
-The app will run at:
+Open `http://localhost:3000`.
 
-```bash
-http://localhost:3000
-```
+## Demo mode
 
-### 4. Create a production build
-
-```bash
-npm run build
-```
-
-## Environment Variables
-
-| Variable | Required | Description |
-| --- | --- | --- |
-| `REACT_APP_BACKEND_URL` | No | Optional backend API base URL, such as `http://localhost:5000`. |
-
-Do not place OAuth secrets, database credentials, or server tokens in this React app.
-
-## Running Modes
-
-### Demo Mode
-
-If you do not configure a backend, the app still works locally.
+No environment variables are needed for local demo mode.
 
 In demo mode:
 
-- sign-in is simulated
-- NGOs are loaded from mock data
-- donations are stored in `localStorage`
-- no API keys are required
+- Sign-in is simulated
+- NGO data comes from local mock data
+- Donations are stored in `localStorage`
+- No API keys are required
 
-This is the easiest way to preview the app.
+## Connected backend mode
 
-### Connected Backend Mode
+Create `.env.local` from `.env.example`:
 
-To connect the frontend to a backend, create a `.env.local` file in the project root:
+```bash
+cp .env.example .env.local
+```
+
+Set the backend URL:
 
 ```env
 REACT_APP_BACKEND_URL=http://localhost:5000
 ```
 
-The frontend will then use that backend for supported requests.
-
-## Backend Contract
-
-If `REACT_APP_BACKEND_URL` is set, the frontend expects these endpoints:
+The frontend expects these backend endpoints when connected mode is enabled:
 
 - `GET /ngos`
 - `GET /user`
 - `GET /logout`
 - `GET /auth/google`
 
-Notes:
+Requests use cookies with `credentials: "include"`, so the backend must handle sessions and CORS correctly.
 
-- Requests are sent with `credentials: "include"`
-- The backend should support cookies/sessions and proper CORS configuration
-- Donation posting is currently handled locally in the frontend, not through a backend endpoint
+## Build
 
-## API Keys and Services
-
-### Required for demo mode
-
-- None
-
-### Required for connected mode
-
-- A backend API server
-- Google OAuth credentials if you want real Google sign-in
-- A database if you want persistent NGO/user/donation data
-
-Recommended backend env vars would look something like:
-
-```env
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-SESSION_SECRET=your_session_secret
-CLIENT_URL=http://localhost:3000
+```bash
+npm run build
 ```
 
-Important:
-
-- Do not put secret keys in the React app
-- Only `REACT_APP_BACKEND_URL` belongs in the frontend env file
-- All OAuth secrets should live on the backend
-
-## Scripts
-
-From `package.json`:
-
-- `npm start` - run the development server
-- `npm run build` - create a production build
-- `npm test` - run tests
-
-## Folder Overview
-
-```text
-src/
-  components/     Reusable UI pieces
-  constants/      Static assets, mock data, form defaults
-  hooks/          App data hooks
-  pages/          Route-level screens
-  services/       API and storage access
-public/
-  images/         Static image assets
-```
-
-## Current Architecture
-
-- `src/App.js` manages routing and top-level flow state
-- `src/services/api.js` handles backend and local fallback behavior
-- `src/hooks/useAuth.js` handles auth state
-- `src/hooks/useNgoData.js` loads NGO data
-- `src/hooks/useDonations.js` manages donation history
-
-## Screenshots
-
-Add screenshots here before sharing the repository with recruiters or demo reviewers.
+The production build is written to `build/`.
 
 ## Deployment
 
-Recommended platform: Vercel or Netlify.
+Deploy this on Vercel or Netlify.
 
-### Vercel
+Vercel settings:
 
-1. Import this GitHub repository into Vercel.
-2. Use `npm run build` as the build command.
-3. Use `build` as the output directory.
-4. Add `REACT_APP_BACKEND_URL` only if using a deployed backend.
-5. Deploy and verify the app opens at the generated Vercel URL.
+- Framework preset: Create React App
+- Build command: `npm run build`
+- Output directory: `build`
+- Environment variable: add `REACT_APP_BACKEND_URL` only if you have a deployed backend
 
-### Netlify
+Netlify settings:
 
-1. Import this GitHub repository into Netlify.
-2. Set build command to `npm run build`.
-3. Set publish directory to `build`.
-4. Add `REACT_APP_BACKEND_URL` only if using a deployed backend.
+- Build command: `npm run build`
+- Publish directory: `build`
 
-Common issue: client-side routes may 404 on refresh. If that happens, add a Netlify `_redirects` file or Vercel SPA fallback config.
+If browser refreshes fail on nested routes, configure a single page app fallback.
 
-## Known Limitations
+## Recruiter note
 
-- Demo mode stores user and donation data in browser `localStorage`.
-- Connected mode requires a separate backend for Google OAuth, sessions, and persistent storage.
-- Donation submission is frontend-local unless a backend endpoint is added.
+This is one of the better recruiter-facing projects in this folder. It has a complete frontend flow, multiple screens, routing, reusable components, custom hooks, local persistence, and a backend-ready API layer. Deploy the demo mode and add screenshots before linking it on your resume.
 
-## Suggested Next Steps
+## Limitations
 
-- Add a real backend for donations, users, and NGOs
-- Replace local donation storage with API persistence
-- Add form validation for phone/date/time
-- Add tests for core donation flow
-- Add volunteer and pickup management workflows
-- Upgrade React and routing stack over time
-
-## Contributing
-
-If you want to extend the project, a good order is:
-
-1. Keep the current demo mode working
-2. Add backend support without breaking the local fallback
-3. Implement real donation APIs
-4. Add tests around the main donation flow
-
-## Credits
-
-Built as a college demo project for food donation coordination and NGO discovery.
-
-## License
-
-This project is licensed under the terms in `LICENSE`.
+- Demo mode stores data in the browser
+- Real Google auth needs a backend
+- Donation submission is not persisted to a real database yet
+- No automated tests are included for the main donation flow
