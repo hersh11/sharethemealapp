@@ -18,7 +18,7 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 21px;
-  color: #fb7e00;
+  color: #8b5cf6;
 }
 
 .details {
@@ -46,5 +46,5 @@
 }
 
 .arrow_icon {
-    fill: rgba(251, 126, 0, 0.8);
+    fill: rgba(139, 92, 246, 0.82);
 }

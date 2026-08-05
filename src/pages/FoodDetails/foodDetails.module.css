@@ -27,7 +27,7 @@
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: #fb7e00;
+  background: #8b5cf6;
   cursor: pointer;
 }
 
@@ -65,7 +65,7 @@
   content: "";
   width: 10px;
   height: 10px;
-  background: #fb7e00;
+  background: #8b5cf6;
   position: absolute;
   top: 4px;
   left: 4px;

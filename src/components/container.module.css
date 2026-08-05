@@ -29,7 +29,7 @@ h1 {
   padding: 8px 130px;
   width: 368px;
   height: 48px;
-  background: #fb7e00;
+  background: #8b5cf6;
   border-radius: 10px;
   font-family: Poppins;
   font-style: normal;
@@ -46,7 +46,7 @@ h1 {
 .email:focus {
   border: none;
   box-sizing: border-box;
-  outline: 2px solid #fb7e00;
+  outline: 2px solid #8b5cf6;
 }
 
 .pass {
@@ -63,7 +63,7 @@ h1 {
 .pass:focus {
   border: none;
   box-sizing: border-box;
-  outline: 2px solid #fb7e00;
+  outline: 2px solid #8b5cf6;
 }
 
 .sign {

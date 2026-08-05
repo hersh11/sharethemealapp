@@ -12,7 +12,7 @@
   width: 368px;
   border-radius: 10px;
   padding: 8px 130px;
-  background: #fb7e00;
+  background: #8b5cf6;
   border-radius: 10px;
   border: none;
   color: white;
@@ -34,18 +34,18 @@
   font-size: 18px;
   line-height: 27px;
   letter-spacing: 0.0015em;
-  color: #fb7e00;
+  color: #8b5cf6;
   margin-top: 5px;
 }
 
 .edit {
-  border: 1px solid #fb7e00;
+  border: 1px solid #8b5cf6;
   border-radius: 2px;
   height: 26px;
   width: 98px;
   border-radius: 2px;
   padding: 8px, 38px, 8px, 38px;
-  color: #fb7e00;
+  color: #8b5cf6;
   margin: auto;
   margin-top: 10px;
 }

@@ -1,12 +1,12 @@
 .selfBtn {
   cursor: pointer;
   background: white;
-  color: #fb7e00;
+  color: #8b5cf6;
 }
 
 .pickupBtn {
   cursor: pointer;
-  background: #fb7e00;
+  background: #8b5cf6;
   color: white;
 }
 
@@ -42,7 +42,7 @@
   width: 156px;
   border-radius: 5px;
   padding: 0px 32px;
-  border: 1px solid #fb7e00;
+  border: 1px solid #8b5cf6;
 }
 
 .button_section > button:disabled {
@@ -77,7 +77,7 @@
 
 .icon {
   font-size: 48px;
-  fill: #FB7E00;
+  fill: #8b5cf6;
 }
 
 .modal_container > p {

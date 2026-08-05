@@ -87,7 +87,7 @@ width: 368px;
 left: 23px;
 
 border: none;
-background: #FB7E00;
+background: #8b5cf6;
 
 
 }
@@ -97,7 +97,7 @@ background: #FB7E00;
 .prev:hover,
 .next:hover {
     color: white;
-    background-color: rgba(199, 25, 25, 0.6);
+    background-color: rgba(139, 92, 246, 0.16);
     transition: all 0.5s ease-in;
 }
 .next{
