@@ -101,10 +101,6 @@ Netlify settings:
 
 If browser refreshes fail on nested routes, configure a single page app fallback.
 
-## Recruiter note
-
-This is one of the better recruiter-facing projects in this folder. It has a complete frontend flow, multiple screens, routing, reusable components, custom hooks, local persistence, and a backend-ready API layer. Deploy the demo mode and add screenshots before linking it on your resume.
-
 ## Limitations
 
 - Demo mode stores data in the browser
