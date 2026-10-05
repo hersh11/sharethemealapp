@@ -91,6 +91,14 @@ The production build is a static site in `dist/`. Every route has to fall back t
 
 Set `VITE_BACKEND_URL` in the host's environment settings only if you have a deployed backend.
 
+## Search engines and metadata
+
+- Each page sets its own `<title>`. The landing page has a meta description, Open Graph tags and `WebApplication` structured data (JSON-LD).
+- `robots.txt`, `sitemap.xml`, the canonical link and `og:url` are generated at build time by `tools/siteMeta.js`. The site URL comes from `SITE_URL`, or automatically from Vercel (`VERCEL_PROJECT_PRODUCTION_URL`, which switches to your custom domain once you add one) or Netlify (`URL`).
+- `public/llms.txt` describes the site for AI assistants.
+- The 404 page is marked `noindex`. Production builds ship without source maps.
+- Fonts are self-hosted (`@fontsource/poppins`), so the site makes no third-party requests and sets no cookies. It only uses `localStorage` and `sessionStorage` for the visitor's own data, so it doesn't need a cookie banner.
+
 ## Project structure
 
 ```

@@ -51,15 +51,14 @@ export default function NgoDetail() {
   return (
     <>
       <title>{`${ngo.name} · ShareTheMeal`}</title>
-      <PageHeader backTo="/ngos" title="NGO" />
+      <PageHeader backTo="/ngos" title={ngo.name} />
       <div className={shared.page}>
         <section className={styles.hero}>
           <Avatar name={ngo.name} size={96} />
-          <div className={styles.nameRow}>
-            <h2 className={styles.name}>{ngo.name}</h2>
-            <HiBadgeCheck aria-label="Verified" className={styles.badge} role="img" />
-          </div>
-          {ngo.area ? <p className={shared.message}>{ngo.area}</p> : null}
+          <p className={styles.verified}>
+            <HiBadgeCheck aria-hidden="true" className={styles.badge} />
+            Verified NGO{ngo.area ? ` · ${ngo.area}` : ""}
+          </p>
           <dl className={styles.stats}>
             {stats.map((stat) => (
               <div key={stat.label}>

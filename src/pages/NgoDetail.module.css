@@ -6,17 +6,13 @@
   text-align: center;
 }
 
-.nameRow {
+.verified {
   display: flex;
   align-items: center;
   gap: 6px;
   margin-top: 8px;
-}
-
-.name {
-  font-size: 21px;
-  font-weight: 600;
-  line-height: 1.3;
+  color: var(--color-text-muted);
+  font-size: 14px;
 }
 
 .badge {

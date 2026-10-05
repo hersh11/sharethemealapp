@@ -18,7 +18,7 @@ export default function SignIn() {
 
   return (
     <div className={styles.page}>
-      <title>Sign in · ShareTheMeal</title>
+      <title>ShareTheMeal · Donate surplus food to NGOs nearby</title>
       <img alt="Share The Meal" className={styles.logo} height="162" src={images.logo} width="497" />
 
       <div className={styles.copy}>

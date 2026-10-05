@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.1.0 (2026-10-05)
+
+- Canonical link, `og:url`, `sitemap.xml` and `robots.txt` generated at build time from the site URL (`SITE_URL`, or Vercel's and Netlify's production URL).
+- `WebApplication` structured data (JSON-LD) and `llms.txt`.
+- Poppins is self-hosted, so the site makes no third-party requests.
+- The NGO page's heading is now the NGO's name; the landing page has a descriptive title; the 404 page is `noindex`.
+
 ## 2.0.0 (2026-10-05)
 
 Rebuilt so the app can be deployed as a static site.

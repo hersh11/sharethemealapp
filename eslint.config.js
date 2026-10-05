@@ -21,4 +21,8 @@ export default [
     files: ["src/test/**", "**/*.test.{js,jsx}"],
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
   },
+  {
+    files: ["vite.config.js", "tools/**"],
+    languageOptions: { globals: globals.node },
+  },
 ];
