@@ -1,0 +1,26 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(var(--shell-width), 100%);
+  min-height: 100dvh;
+  margin-inline: auto;
+  padding: 24px;
+  background: var(--color-surface);
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 340px;
+  color: var(--color-text-muted);
+}
+
+.title {
+  color: var(--color-text);
+  font-size: 22px;
+  font-weight: 600;
+}

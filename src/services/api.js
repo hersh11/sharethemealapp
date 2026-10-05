@@ -1,110 +1,80 @@
-import { mockNgos, mockUser } from "../constants/mockData";
+import { demoNgos, demoUser } from "../data/mockData";
+import { localStore, STORAGE_KEYS } from "../lib/storage";
 
-const API_BASE_URL = (process.env.REACT_APP_BACKEND_URL || "").replace(/\/$/, "");
-const STORAGE_KEYS = {
-  user: "sharethemeal.user",
-  donations: "sharethemeal.donations",
-};
+const API_BASE_URL = (import.meta.env.VITE_BACKEND_URL ?? "").trim().replace(/\/+$/, "");
 
-const hasBackend = Boolean(API_BASE_URL);
+// Without a backend URL the app runs entirely in the browser with demo data.
+export const isDemoMode = API_BASE_URL === "";
 
-const readStorage = (key, fallbackValue) => {
-  try {
-    const storedValue = window.localStorage.getItem(key);
-    return storedValue ? JSON.parse(storedValue) : fallbackValue;
-  } catch (error) {
-    return fallbackValue;
-  }
-};
-
-const writeStorage = (key, value) => {
-  window.localStorage.setItem(key, JSON.stringify(value));
-};
-
-const buildUrl = (path) => {
-  if (!path.startsWith("/")) {
-    throw new Error(`Expected an absolute API path, received "${path}"`);
-  }
-
-  return `${API_BASE_URL}${path}`;
-};
-
-const requestJson = async (path, options = {}) => {
-  const response = await fetch(buildUrl(path), {
+const requestJson = async (path) => {
+  const response = await fetch(`${API_BASE_URL}${path}`, {
     credentials: "include",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...(options.headers || {}),
-    },
+    headers: { Accept: "application/json" },
   });
 
   if (!response.ok) {
-    throw new Error(`Request failed with status ${response.status}`);
+    throw new Error(`Request to ${path} failed with status ${response.status}`);
   }
 
-  const contentType = response.headers.get("content-type") || "";
-
-  if (!contentType.includes("application/json")) {
-    return null;
-  }
-
-  return response.json();
+  const contentType = response.headers.get("content-type") ?? "";
+  return contentType.includes("application/json") ? response.json() : null;
 };
+
+// Accepts the current field names and the ones the original backend used.
+export const normalizeNgo = (raw) => ({
+  id: String(raw.id ?? raw._id),
+  name: raw.name ?? raw.NGOName ?? "Unnamed NGO",
+  area: raw.area ?? raw.location ?? "",
+  mealsNeeded: Number(raw.mealsNeeded ?? raw.mealsRequired ?? 0),
+  neededBy: raw.neededBy ?? raw.time ?? "",
+  rating: Number(raw.rating ?? raw.reviews ?? 0),
+  mealsServed: Number(raw.mealsServed ?? raw.totalFeeds ?? 0),
+  campaigns: Number(raw.campaigns ?? raw.totalCampaigns ?? 0),
+  volunteers: Number(raw.volunteers ?? raw.totalVolunteers ?? 0),
+  accepts: Array.isArray(raw.accepts) ? raw.accepts : [],
+  about: raw.about ?? "",
+});
 
 export const ngoService = {
   async getAll() {
-    if (!hasBackend) {
-      return mockNgos;
+    if (isDemoMode) {
+      return demoNgos;
     }
 
     const data = await requestJson("/ngos");
-    return Array.isArray(data) ? data : [];
+    return Array.isArray(data) ? data.filter(Boolean).map(normalizeNgo) : [];
   },
 };
 
 export const authService = {
+  getStoredUser() {
+    return localStore.get(STORAGE_KEYS.user, null);
+  },
   async getCurrentUser() {
-    if (!hasBackend) {
-      return readStorage(STORAGE_KEYS.user, null);
+    if (isDemoMode) {
+      return authService.getStoredUser();
     }
 
     const data = await requestJson("/user");
-    return data?.user || null;
+    return data?.user ?? null;
   },
-  async logout() {
-    if (!hasBackend) {
-      window.localStorage.removeItem(STORAGE_KEYS.user);
+  // Returns the signed-in user in demo mode. With a backend it redirects to
+  // Google sign-in and returns null.
+  signIn() {
+    if (isDemoMode) {
+      localStore.set(STORAGE_KEYS.user, demoUser);
+      return demoUser;
+    }
+
+    window.location.assign(`${API_BASE_URL}/auth/google`);
+    return null;
+  },
+  async signOut() {
+    if (isDemoMode) {
+      localStore.remove(STORAGE_KEYS.user);
       return;
     }
 
     await requestJson("/logout");
-  },
-  loginWithGoogle() {
-    if (!hasBackend) {
-      writeStorage(STORAGE_KEYS.user, mockUser);
-      return mockUser;
-    }
-
-    window.location.assign(buildUrl("/auth/google"));
-    return null;
-  },
-};
-
-export const donationService = {
-  async getAll() {
-    return readStorage(STORAGE_KEYS.donations, []);
-  },
-  async create(donationPayload) {
-    const existingDonations = readStorage(STORAGE_KEYS.donations, []);
-    const createdDonation = {
-      id: `donation-${Date.now()}`,
-      status: donationPayload.deliveryMode === "Pickup" ? "Pickup Requested" : "Scheduled",
-      createdAt: new Date().toISOString(),
-      ...donationPayload,
-    };
-
-    writeStorage(STORAGE_KEYS.donations, [createdDonation, ...existingDonations]);
-    return createdDonation;
   },
 };

@@ -1,109 +1,111 @@
-# ShareTheMeal app
+# ShareTheMeal
 
-ShareTheMeal is a mobile-first React frontend for food donation coordination. Donors can browse NGOs, create food donation posts, choose delivery or pickup, and review their donation activity.
+A mobile-first web app for donating surplus food. Donors pick a nearby NGO or hunger spot, describe the food, choose a pickup slot, and track every donation they have posted.
 
-The app works in demo mode without a backend. It can also connect to a backend API for auth and NGO data when `REACT_APP_BACKEND_URL` is configured.
+It runs entirely in the browser in demo mode, so it can be deployed as a static site with no backend.
 
 ## Features
 
-- Splash and sign-in flow
-- Local demo login
-- NGO listing and search
-- NGO detail pages
-- Donation type selection
-- Food category and food details forms
-- Donation confirmation flow
-- Delivery or pickup selection
-- Activity history stored in the browser
-- Profile screen with donation count
+- Demo sign-in, or Google sign-in when a backend is connected
+- NGO directory with search by name or area, and a detail page for each NGO
+- Four-step donation flow: category, food details, pickup details, delivery
+- Validation on every step (meal choice, address, phone, date in the next 14 days, time not in the past)
+- Food safety prompts, such as a warning when cooked food is more than 6 hours old
+- The in-progress donation survives a page refresh, and the flow sends you back to the first unfinished step if you jump ahead
+- Activity feed with status, cancellation, and a confirmation after posting
+- Profile with donation stats and a "clear demo data" option
+- Works from 320px phones up to desktop, keyboard accessible, with labelled form fields and error messages
 
 ## Tech stack
 
-- React 17
-- React Router DOM v5
+- React 19 and React Router 8
+- Vite 8
 - CSS Modules
-- React Icons
-- Create React App
+- Vitest and Testing Library
+- ESLint 10 (flat config)
+- GitHub Actions CI (lint, test, build)
 
-## Run locally
+## Getting started
 
-Install dependencies:
+You need Node.js 22.22 or newer (the repo pins Node 24 in `.nvmrc`). With [fnm](https://github.com/Schniz/fnm) or nvm:
+
+```bash
+fnm use --install-if-missing
+```
+
+Install dependencies and start the dev server:
 
 ```bash
 npm install
+npm run dev
 ```
 
-Start the app:
+Open http://localhost:5173 and click **Try the demo**.
 
-```bash
-npm start
-```
+## Scripts
 
-Open `http://localhost:3000`.
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Start the dev server |
+| `npm run build` | Build for production into `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint` | Run ESLint |
+| `npm test` | Run the test suite once |
+| `npm run test:watch` | Run tests in watch mode |
+| `npm run check` | Lint, test and build, the same as CI |
 
-## Demo mode
+## Demo mode and backend mode
 
-No environment variables are needed for local demo mode.
+With no environment variables set, the app runs in **demo mode**:
 
-In demo mode:
+- Sign-in creates a local guest user
+- NGOs come from `src/data/mockData.js` (the organisations are fictional)
+- Donations are saved in `localStorage`, and the donation in progress is saved in `sessionStorage`
 
-- Sign-in is simulated
-- NGO data comes from local mock data
-- Donations are stored in `localStorage`
-- No API keys are required
-
-## Connected backend mode
-
-Create `.env.local` from `.env.example`:
-
-```bash
-cp .env.example .env.local
-```
-
-Set the backend URL:
+To connect a backend, copy `.env.example` to `.env.local` and set:
 
 ```env
-REACT_APP_BACKEND_URL=http://localhost:5000
+VITE_BACKEND_URL=https://api.example.com
 ```
 
-The frontend expects these backend endpoints when connected mode is enabled:
+The app then expects these endpoints, called with cookies (`credentials: "include"`), so the backend must allow CORS with credentials from the site's origin:
 
-- `GET /ngos`
-- `GET /user`
-- `GET /logout`
-- `GET /auth/google`
+| Endpoint | Purpose |
+| --- | --- |
+| `GET /auth/google` | Starts Google sign-in, then redirects back to the app |
+| `GET /user` | Returns `{ "user": { "name", "email", "profilePic" } }` or `{ "user": null }` |
+| `GET /logout` | Ends the session |
+| `GET /ngos` | Returns an array of NGOs |
 
-Requests use cookies with `credentials: "include"`, so the backend must handle sessions and CORS correctly.
+NGO objects can use the current field names (`id`, `name`, `area`, `mealsNeeded`, …) or the original backend's (`_id`, `NGOName`, `mealsRequired`, `time`, `reviews`, `totalFeeds`, …). See `normalizeNgo` in `src/services/api.js`.
 
-## Build
+Donations are always stored in the browser for now, even in backend mode.
 
-```bash
-npm run build
+## Deploying
+
+The production build is a static site in `dist/`. Every route has to fall back to `index.html` so that refreshing a page like `/ngos/roti-relay` works, and config for that is included for both hosts below.
+
+**Vercel** (`vercel.json`): import the repository at vercel.com/new. The Vite preset and build settings are detected automatically. Name the project `sharethemealapp` to keep the URL in the repo description.
+
+**Netlify** (`netlify.toml`): import the repository. The build command and publish directory are read from the config file.
+
+Set `VITE_BACKEND_URL` in the host's environment settings only if you have a deployed backend.
+
+## Project structure
+
+```
+src/
+  components/   Shared UI (layout, nav, buttons, cards, error boundary)
+  context/      Auth, NGO, donation and donation-draft state
+  data/         Demo data, donation options and images
+  hooks/        Custom hooks
+  lib/          Storage, dates, and donation-flow rules and validation
+  pages/        Route components; the donation flow lives in pages/donate
+  services/     Backend API client
+  styles/       Global styles and shared CSS module
+  test/         Test setup and helpers
 ```
 
-The production build is written to `build/`.
+## License
 
-## Deployment
-
-Deploy this on Vercel or Netlify.
-
-Vercel settings:
-
-- Framework preset: Create React App
-- Build command: `npm run build`
-- Output directory: `build`
-- Environment variable: add `REACT_APP_BACKEND_URL` only if you have a deployed backend
-
-Netlify settings:
-
-- Build command: `npm run build`
-- Publish directory: `build`
-
-If browser refreshes fail on nested routes, configure a single page app fallback.
-
-## Limitations
-
-- Demo mode stores data in the browser
-- Real Google auth needs a backend
-- Donation submission is not persisted to a real database yet
-- No automated tests are included for the main donation flow
+MIT, see [LICENSE](LICENSE).

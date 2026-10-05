@@ -1,0 +1,23 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  width: min(var(--shell-width), 100%);
+  min-height: 100dvh;
+  margin-inline: auto;
+  background: var(--color-surface-muted);
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding-bottom: calc(var(--nav-height) + var(--safe-bottom));
+}
+
+@media (min-width: 520px) {
+  .shell {
+    box-shadow:
+      0 0 0 1px var(--color-border),
+      0 24px 60px rgb(60 30 120 / 12%);
+  }
+}

@@ -1,0 +1,39 @@
+.nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  z-index: 3;
+  width: min(var(--shell-width), 100%);
+  padding-bottom: var(--safe-bottom);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+  transform: translateX(-50%);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  height: var(--nav-height);
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  height: 100%;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.icon {
+  font-size: 22px;
+}
+
+.active {
+  color: var(--color-primary);
+}

@@ -1,0 +1,252 @@
+.resume {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-soft);
+  font-size: 14px;
+}
+
+.resumeActions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Veg / Non-veg segmented control */
+.segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.segmented > div {
+  position: relative;
+  display: grid;
+}
+
+.segmented label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  border: 1px solid #b8b4c2;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.segmented input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.segmented input:checked + label {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+}
+
+.segmented input:focus-visible + label {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Breakfast / Lunch / Dinner picture tiles */
+.meals {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.meal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.meal input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mealImage {
+  position: relative;
+  width: 78px;
+  height: 78px;
+  border: 3px solid transparent;
+  border-radius: 50%;
+}
+
+.mealImage img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.mealCheck {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  display: none;
+  color: var(--color-primary);
+  font-size: 26px;
+  background: var(--color-surface);
+  border-radius: 50%;
+}
+
+.meal input:checked + .mealImage {
+  border-color: var(--color-primary);
+}
+
+.meal input:checked + .mealImage .mealCheck {
+  display: block;
+}
+
+.meal input:focus-visible + .mealImage {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.mealLabel {
+  font-size: 14px;
+}
+
+.legend {
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* Review summary */
+.summary {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 16px;
+  font-size: 14px;
+}
+
+.summary dt {
+  color: var(--color-text-muted);
+}
+
+.summary dd {
+  font-weight: 500;
+}
+
+.summaryHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.editLink {
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.dateTime {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.guidelines {
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  font-size: 14px;
+}
+
+.guidelines summary {
+  color: var(--color-primary);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.guidelines ul {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+  padding-left: 20px;
+  color: var(--color-text-muted);
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.checkboxRow input {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin: 1px 0 0;
+  accent-color: var(--color-primary);
+}
+
+/* Delivery choice cards */
+.illustration {
+  width: 70%;
+  height: auto;
+  margin-inline: auto;
+}
+
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  cursor: pointer;
+}
+
+.choice:has(input:checked) {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+}
+
+.choice input {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0;
+  accent-color: var(--color-primary);
+}
+
+.choiceTitle {
+  display: block;
+  font-weight: 600;
+}
+
+.choiceDescription {
+  display: block;
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.recap {
+  color: var(--color-text-muted);
+  font-size: 14px;
+  text-align: center;
+}

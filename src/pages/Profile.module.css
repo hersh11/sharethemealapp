@@ -1,0 +1,88 @@
+.identity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.name {
+  margin-top: 8px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.stats > div {
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.stats dt {
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.stats dd {
+  color: var(--color-primary-hover);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.links {
+  overflow: hidden;
+  padding: 0;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  list-style: none;
+}
+
+.links li + li {
+  border-top: 1px solid var(--color-border);
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 54px;
+  padding: 0 16px;
+  font-weight: 500;
+}
+
+.link:hover {
+  background: var(--color-surface-muted);
+}
+
+.linkIcon {
+  color: var(--color-primary);
+  font-size: 20px;
+}
+
+.chevron {
+  margin-left: auto;
+  color: var(--color-text-muted);
+  font-size: 20px;
+}
+
+.demo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+  font-size: 14px;
+}

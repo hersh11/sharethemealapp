@@ -1,0 +1,10 @@
+.avatar {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  object-fit: cover;
+}

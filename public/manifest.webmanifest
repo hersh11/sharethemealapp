@@ -1,0 +1,10 @@
+{
+  "name": "ShareTheMeal",
+  "short_name": "ShareTheMeal",
+  "description": "Post surplus food for nearby NGOs and hunger spots.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f0ff",
+  "theme_color": "#7c3aed",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

@@ -1,0 +1,53 @@
+.card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-1px);
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.name {
+  color: var(--color-primary-hover);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.area {
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 4px;
+  font-size: 13px;
+}
+
+.meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.arrow {
+  flex-shrink: 0;
+  color: var(--color-primary);
+  font-size: 22px;
+}

@@ -1,36 +1,22 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import styles from "./Button.module.css";
 
-const Button = ({ text, to, type = "button", onClick, disabled = false }) => {
-  const className = [styles.button, disabled ? styles.disabled : ""].join(" ").trim();
-  const handleLinkClick = (event) => {
-    if (disabled) {
-      event.preventDefault();
-      return;
-    }
-
-    onClick?.(event);
-  };
+export default function Button({ to, variant = "primary", size, className, children, ...props }) {
+  const classes = [styles.button, styles[variant], size && styles[size], className]
+    .filter(Boolean)
+    .join(" ");
 
   if (to) {
     return (
-      <Link
-        aria-disabled={disabled}
-        className={className}
-        onClick={handleLinkClick}
-        tabIndex={disabled ? -1 : undefined}
-        to={to}
-      >
-        {text}
+      <Link className={classes} to={to} {...props}>
+        {children}
       </Link>
     );
   }
 
   return (
-    <button className={className} disabled={disabled} onClick={onClick} type={type}>
-      {text}
+    <button className={classes} type="button" {...props}>
+      {children}
     </button>
   );
-};
-
-export default Button;
+}
