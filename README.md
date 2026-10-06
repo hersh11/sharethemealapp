@@ -1,5 +1,7 @@
 # ShareTheMeal
 
+**Live demo: [sharethemealapp.vercel.app](https://sharethemealapp.vercel.app)**
+
 A mobile-first web app for donating surplus food. Donors pick a nearby NGO or hunger spot, describe the food, choose a pickup slot, and track every donation they have posted.
 
 It runs entirely in the browser in demo mode, so it can be deployed as a static site with no backend.
@@ -85,7 +87,7 @@ Donations are always stored in the browser for now, even in backend mode.
 
 The production build is a static site in `dist/`. Every route has to fall back to `index.html` so that refreshing a page like `/ngos/roti-relay` works, and config for that is included for both hosts below.
 
-**Vercel** (`vercel.json`): import the repository at vercel.com/new. The Vite preset and build settings are detected automatically. Name the project `sharethemealapp` to keep the URL in the repo description.
+**Vercel** (`vercel.json`): the live site is the `sharethemealapp` project on Vercel, which redeploys on every push to `main`. To set up your own copy, import the repository at vercel.com/new; the Vite preset and build settings are detected automatically.
 
 **Netlify** (`netlify.toml`): import the repository. The build command and publish directory are read from the config file.
 
