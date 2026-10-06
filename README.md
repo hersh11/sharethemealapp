@@ -8,15 +8,16 @@ It runs entirely in the browser in demo mode, so it can be deployed as a static 
 
 ## Features
 
-- Demo sign-in, or Google sign-in when a backend is connected
-- NGO directory with search by name or area, and a detail page for each NGO
+- Opens straight on Home as a guest, with a welcome banner explaining the app (Google sign-in when a backend is connected)
+- NGO directory with search by name or area, and a detail page for each NGO with its upcoming campaigns
+- "Sort by distance" uses the browser's location to put the nearest NGOs first and show how far away each one is. The location is rounded to about 100 m and kept only in the current tab
 - Four-step donation flow: category, food details, pickup details, delivery
-- Validation on every step (meal choice, address, phone, date in the next 14 days, time not in the past)
-- Food safety prompts, such as a warning when cooked food is more than 6 hours old
+- Pickup times follow the food: cooked food has to be collected within 6 hours of cooking (at least an hour is always allowed), while raw and packed food can be scheduled up to 14 days ahead
+- Validation on every step (meal choice, address, phone, date and time) and food safety prompts
 - The in-progress donation survives a page refresh, and the flow sends you back to the first unfinished step if you jump ahead
 - Activity feed with status, cancellation, and a confirmation after posting
 - Profile with donation stats and a "clear demo data" option
-- Works from 320px phones up to desktop, keyboard accessible, with labelled form fields and error messages
+- Laptop layout with a sidebar and multi-column grids; a bottom tab bar on phones. Works from 320px up, keyboard accessible, with labelled form fields and error messages
 
 ## Tech stack
 

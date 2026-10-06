@@ -38,7 +38,7 @@ export default function DeliveryOptions() {
     <>
       <title>Delivery · ShareTheMeal</title>
       <PageHeader backTo="/donate/review" subtitle={stepSubtitle(4, draft)} title="Delivery" />
-      <div className={shared.page}>
+      <div className={`${shared.page} ${shared.narrow}`}>
         <img alt="" className={styles.illustration} height="205" src={images.deliveryScooter} width="414" />
         <form className={shared.form} onSubmit={handleSubmit}>
           <fieldset>

@@ -1,0 +1,48 @@
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 14px;
+  border: 1px solid var(--color-primary);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.15s ease;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--color-primary-soft);
+}
+
+.button:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.button svg {
+  font-size: 18px;
+}
+
+.note,
+.hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-muted);
+  font-size: 13.5px;
+}
+
+.note svg {
+  color: var(--color-primary);
+  font-size: 16px;
+}

@@ -101,7 +101,7 @@ export default function Activity() {
         ) : null}
 
         {donations.length ? (
-          <ul className={shared.list}>
+          <ul className={styles.grid}>
             {donations.map((donation) => (
               <li key={donation.id}>
                 <DonationCard donation={donation} isNew={donation.id === postedId} onCancel={handleCancel} />

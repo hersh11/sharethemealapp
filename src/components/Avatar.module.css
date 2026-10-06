@@ -3,8 +3,29 @@
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: 30%;
   font-weight: 600;
   letter-spacing: 0.02em;
   object-fit: cover;
+}
+
+/* Soft highlight in the top-left corner so the gradient reads as a tile. */
+.art {
+  position: relative;
+  overflow: hidden;
+  color: #ffffff;
+}
+
+.art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 25% 20%, rgb(255 255 255 / 35%), transparent 55%);
+  pointer-events: none;
+}
+
+.art svg {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 2px 3px rgb(0 0 0 / 18%));
 }

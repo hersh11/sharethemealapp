@@ -154,6 +154,15 @@
   font-weight: 500;
 }
 
+.deadline {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+  font-size: 14px;
+}
+
 .dateTime {
   display: grid;
   grid-template-columns: 1fr 1fr;

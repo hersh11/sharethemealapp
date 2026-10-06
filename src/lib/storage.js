@@ -1,7 +1,8 @@
 export const STORAGE_KEYS = {
-  user: "sharethemeal.v2.user",
   donations: "sharethemeal.v2.donations",
   draft: "sharethemeal.v2.draft",
+  welcomeDismissed: "sharethemeal.v2.welcome-dismissed",
+  location: "sharethemeal.v2.location",
 };
 
 // Storage can throw (private mode, quota, blocked cookies). The app should keep

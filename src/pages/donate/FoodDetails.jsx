@@ -58,7 +58,7 @@ export default function FoodDetails() {
     <>
       <title>Food details · ShareTheMeal</title>
       <PageHeader backTo="/donate/category" subtitle={stepSubtitle(2, draft)} title={draft.category} />
-      <div className={shared.page}>
+      <div className={`${shared.page} ${shared.narrow}`}>
         <form className={shared.form} noValidate onSubmit={handleSubmit}>
           <fieldset>
             <legend className={styles.legend}>Food type</legend>

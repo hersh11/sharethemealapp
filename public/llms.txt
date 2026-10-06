@@ -2,11 +2,11 @@
 
 > A mobile-first web app for donating surplus food. Donors pick a nearby NGO or hunger spot, describe the food, choose a pickup slot and track every donation they post.
 
-ShareTheMeal is a portfolio project by Harsh Narain. The public site runs in demo mode: "Try the demo" signs you in as a guest, the NGOs are fictional, and donations are stored only in the visitor's own browser.
+ShareTheMeal is a portfolio project by Harsh Narain. The public site runs in demo mode: visitors use it as a guest, the NGOs are fictional (based in Pune), and donations are stored only in the visitor's own browser.
 
 ## Pages
 
-- [Home](/): Sign-in for new visitors. After signing in: NGO search, the NGOs that need the most food, and upcoming campaigns.
+- [Home](/): A welcome for first-time visitors, NGO search, NGOs sorted by distance from the visitor, the NGOs that need the most food, and upcoming campaigns.
 - [NGOs](/ngos): Every NGO, with how many meals it needs and by when.
 - [Donate](/donate): A four-step flow: category, food details, pickup details, delivery.
 - [Activity](/activity): Donations you have posted, with their status and a way to cancel them.

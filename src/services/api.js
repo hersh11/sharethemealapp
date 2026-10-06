@@ -1,5 +1,4 @@
 import { demoNgos, demoUser } from "../data/mockData";
-import { localStore, STORAGE_KEYS } from "../lib/storage";
 
 const API_BASE_URL = (import.meta.env.VITE_BACKEND_URL ?? "").trim().replace(/\/+$/, "");
 
@@ -20,11 +19,17 @@ const requestJson = async (path) => {
   return contentType.includes("application/json") ? response.json() : null;
 };
 
+const toCoordinate = (value) =>
+  value === undefined || value === null || value === "" || !Number.isFinite(Number(value)) ? null : Number(value);
+
 // Accepts the current field names and the ones the original backend used.
 export const normalizeNgo = (raw) => ({
   id: String(raw.id ?? raw._id),
   name: raw.name ?? raw.NGOName ?? "Unnamed NGO",
   area: raw.area ?? raw.location ?? "",
+  lat: toCoordinate(raw.lat ?? raw.latitude),
+  lng: toCoordinate(raw.lng ?? raw.longitude),
+  avatar: raw.avatar ?? null,
   mealsNeeded: Number(raw.mealsNeeded ?? raw.mealsRequired ?? 0),
   neededBy: raw.neededBy ?? raw.time ?? "",
   rating: Number(raw.rating ?? raw.reviews ?? 0),
@@ -47,22 +52,18 @@ export const ngoService = {
 };
 
 export const authService = {
-  getStoredUser() {
-    return localStore.get(STORAGE_KEYS.user, null);
-  },
   async getCurrentUser() {
     if (isDemoMode) {
-      return authService.getStoredUser();
+      return demoUser;
     }
 
     const data = await requestJson("/user");
     return data?.user ?? null;
   },
-  // Returns the signed-in user in demo mode. With a backend it redirects to
-  // Google sign-in and returns null.
+  // With a backend this redirects to Google sign-in. Demo visitors are always
+  // signed in as the guest donor, so there's nothing to do.
   signIn() {
     if (isDemoMode) {
-      localStore.set(STORAGE_KEYS.user, demoUser);
       return demoUser;
     }
 
@@ -70,11 +71,8 @@ export const authService = {
     return null;
   },
   async signOut() {
-    if (isDemoMode) {
-      localStore.remove(STORAGE_KEYS.user);
-      return;
+    if (!isDemoMode) {
+      await requestJson("/logout");
     }
-
-    await requestJson("/logout");
   },
 };

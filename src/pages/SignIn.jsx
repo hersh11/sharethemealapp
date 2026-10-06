@@ -3,7 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 import { RiMapPin2Line, RiTimeLine } from "react-icons/ri";
 import Button from "../components/Button";
 import { useAuth } from "../context/contexts";
-import { images } from "../data/images";
+import Logo from "../components/Logo";
 import { isDemoMode } from "../services/api";
 import styles from "./SignIn.module.css";
 
@@ -19,7 +19,7 @@ export default function SignIn() {
   return (
     <div className={styles.page}>
       <title>ShareTheMeal · Donate surplus food to NGOs nearby</title>
-      <img alt="Share The Meal" className={styles.logo} height="162" src={images.logo} width="497" />
+      <Logo size={56} />
 
       <div className={styles.copy}>
         <h1 className={styles.title}>Share surplus food with people who need it</h1>

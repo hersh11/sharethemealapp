@@ -6,7 +6,12 @@ import { useDonationDraft } from "../../context/contexts";
 import { foodGuidelines } from "../../data/donation";
 import { useBlockingStep } from "../../hooks/useBlockingStep";
 import { addDays, formatHoursAgo, toDateInputValue } from "../../lib/dates";
-import { MAX_DAYS_AHEAD, validateContactDetails } from "../../lib/donationFlow";
+import {
+  MAX_DAYS_AHEAD,
+  describeDeadline,
+  latestPickupTime,
+  validateContactDetails,
+} from "../../lib/donationFlow";
 import shared from "../../styles/shared.module.css";
 import styles from "./donate.module.css";
 import { stepSubtitle } from "./stepSubtitle";
@@ -24,6 +29,8 @@ export default function PickupDetails() {
 
   const now = new Date();
   const errors = validateContactDetails(draft, now);
+  const deadline = latestPickupTime(draft, now);
+  const maxDate = deadline ?? addDays(now, MAX_DAYS_AHEAD);
   const visibleErrors = showErrors ? errors : {};
 
   const inputProps = (name) => ({
@@ -60,7 +67,7 @@ export default function PickupDetails() {
     <>
       <title>Pickup details · ShareTheMeal</title>
       <PageHeader backTo="/donate/food" subtitle={stepSubtitle(3, draft)} title="Pickup details" />
-      <div className={shared.page}>
+      <div className={`${shared.page} ${shared.narrow}`}>
         <section aria-labelledby="summary-title" className={shared.card}>
           <div className={styles.summaryHeader}>
             <h2 className={shared.sectionTitle} id="summary-title">
@@ -120,7 +127,15 @@ export default function PickupDetails() {
           </div>
 
           <fieldset>
-            <legend className={styles.legend}>When is it ready?</legend>
+            <legend className={styles.legend}>When can it be picked up?</legend>
+            {deadline ? (
+              <p className={styles.deadline} id="pickup-deadline">
+                Cooked food has to be collected while it's fresh, so pick a time before{" "}
+                <strong>{describeDeadline(deadline, now)}</strong>.
+              </p>
+            ) : (
+              <p className={shared.hint}>Any time in the next {MAX_DAYS_AHEAD} days.</p>
+            )}
             <div className={styles.dateTime}>
               <div className={shared.field}>
                 <label className={shared.hint} htmlFor="date">
@@ -128,7 +143,7 @@ export default function PickupDetails() {
                 </label>
                 <input
                   {...inputProps("date")}
-                  max={toDateInputValue(addDays(now, MAX_DAYS_AHEAD))}
+                  max={toDateInputValue(maxDate)}
                   min={toDateInputValue(now)}
                   type="date"
                 />

@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.2.0 (2026-10-06)
+
+- Cooked food can only be picked up within 6 hours of cooking (always at least an hour); the pickup step shows the deadline and limits the date picker. Raw and packed food keep the 14-day window.
+- "Sort by distance" orders NGOs by the visitor's location and shows how far each one is. When the visitor is far from the demo NGOs, it says so.
+- Visitors land on Home as a guest instead of a sign-in screen, with a dismissible welcome banner. Demo mode has no sign-out.
+- New logo matching the purple theme, illustrated NGO avatars, and a laptop layout with a sidebar and card grids. NGO pages list their upcoming campaigns.
+
 ## 2.1.0 (2026-10-05)
 
 - Canonical link, `og:url`, `sitemap.xml` and `robots.txt` generated at build time from the site URL (`SITE_URL`, or Vercel's and Netlify's production URL).

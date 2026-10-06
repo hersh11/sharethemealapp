@@ -1,19 +1,26 @@
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import { BiDonateHeart, BiHomeAlt } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
-import { RiTimeLine } from "react-icons/ri";
-import styles from "./BottomNav.module.css";
+import { RiTeamLine, RiTimeLine } from "react-icons/ri";
+import { isDemoMode } from "../services/api";
+import Logo from "./Logo";
+import styles from "./MainNav.module.css";
 
 const navItems = [
   { to: "/", label: "Home", icon: BiHomeAlt, end: true },
+  { to: "/ngos", label: "NGOs", icon: RiTeamLine },
   { to: "/donate", label: "Donate", icon: BiDonateHeart },
   { to: "/activity", label: "Activity", icon: RiTimeLine },
   { to: "/profile", label: "Profile", icon: CgProfile },
 ];
 
-export default function BottomNav() {
+// A bottom tab bar on phones and a sidebar on wider screens.
+export default function MainNav() {
   return (
     <nav aria-label="Main" className={styles.nav}>
+      <Link aria-label="ShareTheMeal home" className={styles.brand} to="/">
+        <Logo size={38} />
+      </Link>
       <ul className={styles.list}>
         {navItems.map(({ to, label, icon: Icon, end }) => (
           <li key={to}>
@@ -28,6 +35,9 @@ export default function BottomNav() {
           </li>
         ))}
       </ul>
+      {isDemoMode ? (
+        <p className={styles.note}>Demo version. The NGOs are fictional and your data stays in this browser.</p>
+      ) : null}
     </nav>
   );
 }

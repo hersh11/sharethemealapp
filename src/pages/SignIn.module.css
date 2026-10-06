@@ -9,12 +9,6 @@
   background: var(--color-surface);
 }
 
-.logo {
-  width: 100%;
-  height: auto;
-  border-radius: var(--radius-lg);
-}
-
 .copy {
   display: flex;
   flex-direction: column;

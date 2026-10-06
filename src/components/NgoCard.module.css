@@ -2,15 +2,22 @@
   display: flex;
   align-items: center;
   gap: 14px;
+  height: 100%;
   padding: 14px;
+  border: 1px solid transparent;
   border-radius: var(--radius-md);
   background: var(--color-surface);
   box-shadow: var(--shadow-card);
-  transition: transform 0.15s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .card:hover {
-  transform: translateY(-1px);
+  border-color: var(--color-primary-soft);
+  box-shadow: 0 12px 28px rgb(40 22 80 / 12%);
+  transform: translateY(-2px);
 }
 
 .body {
@@ -28,8 +35,19 @@
 }
 
 .area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
   color: var(--color-text-muted);
   font-size: 13px;
+}
+
+.distance {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--color-primary-hover);
+  font-weight: 600;
 }
 
 .meta {

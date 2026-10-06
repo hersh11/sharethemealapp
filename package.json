@@ -1,6 +1,6 @@
 {
   "name": "sharethemeal",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "private": true,
   "description": "Mobile-first web app for posting surplus food donations to NGOs and hunger spots.",
   "type": "module",

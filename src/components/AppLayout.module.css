@@ -1,23 +1,23 @@
 .shell {
-  display: flex;
-  flex-direction: column;
-  width: min(var(--shell-width), 100%);
   min-height: 100dvh;
-  margin-inline: auto;
   background: var(--color-surface-muted);
 }
 
 .main {
   display: flex;
-  flex: 1;
   flex-direction: column;
+  min-width: 0;
+  min-height: 100dvh;
   padding-bottom: calc(var(--nav-height) + var(--safe-bottom));
 }
 
-@media (min-width: 520px) {
+@media (min-width: 960px) {
   .shell {
-    box-shadow:
-      0 0 0 1px var(--color-border),
-      0 24px 60px rgb(60 30 120 / 12%);
+    display: grid;
+    grid-template-columns: 252px minmax(0, 1fr);
+  }
+
+  .main {
+    padding-bottom: 0;
   }
 }

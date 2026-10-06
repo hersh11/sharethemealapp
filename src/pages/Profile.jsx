@@ -41,7 +41,7 @@ export default function Profile() {
     <>
       <title>Profile · ShareTheMeal</title>
       <PageHeader title="Profile" />
-      <div className={shared.page}>
+      <div className={`${shared.page} ${shared.narrow}`}>
         <section className={styles.identity}>
           <Avatar imageUrl={user.profilePic} name={displayName} size={88} />
           <h2 className={styles.name}>{displayName}</h2>
@@ -82,9 +82,11 @@ export default function Profile() {
           </section>
         ) : null}
 
-        <Button onClick={handleSignOut} variant="secondary">
-          Sign out
-        </Button>
+        {isDemoMode ? null : (
+          <Button onClick={handleSignOut} variant="secondary">
+            Sign out
+          </Button>
+        )}
       </div>
     </>
   );

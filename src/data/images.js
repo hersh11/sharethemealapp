@@ -1,4 +1,3 @@
-import logo from "../assets/images/logo.png";
 import deliveryScooter from "../assets/images/delivery-scooter.png";
 import ngoBanner from "../assets/images/ngo.webp";
 import hungerSpotBanner from "../assets/images/hunger-spot.webp";
@@ -10,7 +9,6 @@ import lunch from "../assets/images/lunch.jpg";
 import dinner from "../assets/images/dinner.jpg";
 
 export const images = {
-  logo,
   deliveryScooter,
   ngoBanner,
   hungerSpotBanner,

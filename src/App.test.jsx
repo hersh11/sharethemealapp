@@ -1,31 +1,67 @@
 import { fireEvent, screen, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import { addDays, toDateInputValue } from "./lib/dates";
+import { addDays, toDateInputValue, toTimeInputValue } from "./lib/dates";
 import { STORAGE_KEYS } from "./lib/storage";
-import { renderApp } from "./test/renderApp";
+import { mockGeolocation, renderApp } from "./test/renderApp";
 
 const tomorrow = toDateInputValue(addDays(new Date(), 1));
+const inHours = (hours) => new Date(Date.now() + hours * 60 * 60 * 1000);
 
 const savedDonations = () => JSON.parse(window.localStorage.getItem(STORAGE_KEYS.donations));
 
-describe("signing in", () => {
-  it("lets a visitor enter the demo", async () => {
-    const { user } = renderApp({ signedIn: false });
-
-    expect(
-      screen.getByRole("heading", { name: "Share surplus food with people who need it" }),
-    ).toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: "Try the demo" }));
+describe("landing", () => {
+  it("opens straight on Home as a guest, with a welcome that can be dismissed", async () => {
+    const { user } = renderApp();
+    const welcome = { name: "Share surplus food with people who need it" };
 
     expect(screen.getByRole("heading", { name: "Hi, Guest" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", welcome)).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Try the demo" })).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Dismiss welcome" }));
+
+    expect(screen.queryByRole("heading", welcome)).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Have extra food?" })).toBeInTheDocument();
+    expect(window.localStorage.getItem(STORAGE_KEYS.welcomeDismissed)).toBe("true");
   });
 
-  it("keeps the page the visitor opened", async () => {
-    const { user } = renderApp({ route: "/ngos/roti-relay", signedIn: false });
+  it("opens shared links directly", () => {
+    renderApp({ route: "/ngos/roti-relay" });
 
-    await user.click(screen.getByRole("button", { name: "Try the demo" }));
+    expect(screen.getByRole("heading", { level: 1, name: "Roti Relay" })).toBeInTheDocument();
+  });
+});
 
-    expect(screen.getByRole("heading", { name: "Roti Relay" })).toBeInTheDocument();
+describe("finding NGOs nearby", () => {
+  it("sorts NGOs by distance once the visitor shares their location", async () => {
+    mockGeolocation({ lat: 18.559, lng: 73.808 }); // Aundh, next to Kindred Kitchen
+    const { user } = renderApp({ route: "/ngos" });
+
+    await user.click(screen.getByRole("button", { name: "Sort by distance" }));
+
+    expect(screen.getByText("Sorted by distance from you")).toBeInTheDocument();
+    const names = screen.getAllByRole("heading", { level: 2 }).map((heading) => heading.textContent);
+    expect(names[0]).toBe("Kindred Kitchen");
+    expect(screen.getAllByText(/away$/)[0]).toHaveTextContent("50 m away");
+  });
+
+  it("says plainly when the demo NGOs are far away", async () => {
+    mockGeolocation({ lat: 28.6139, lng: 77.209 }); // Delhi
+    const { user } = renderApp({ welcomeDismissed: true });
+
+    await user.click(screen.getByRole("button", { name: "Sort by distance" }));
+
+    expect(screen.getByRole("heading", { name: "NGOs near you" })).toBeInTheDocument();
+    expect(screen.getByText(/These demo NGOs are in Pune, [\d,]+ km from you/)).toBeInTheDocument();
+  });
+
+  it("explains when location is blocked", async () => {
+    mockGeolocation({ code: 1 });
+    const { user } = renderApp({ route: "/ngos" });
+
+    await user.click(screen.getByRole("button", { name: "Sort by distance" }));
+
+    expect(screen.getByText(/Location is blocked/)).toBeInTheDocument();
   });
 });
 
@@ -80,9 +116,18 @@ describe("donating", () => {
 
     await user.type(screen.getByRole("textbox", { name: "Pickup address" }), "12 MG Road, Camp, Pune");
     await user.type(screen.getByRole("textbox", { name: "Phone number" }), "98765 43210");
-    fireEvent.change(screen.getByLabelText("Date"), { target: { value: tomorrow } });
-    fireEvent.change(screen.getByLabelText("Time"), { target: { value: "18:30" } });
     await user.click(screen.getByRole("checkbox", { name: "My food follows these guidelines." }));
+
+    // Cooked two hours ago, so a pickup days from now is refused.
+    expect(screen.getByText(/Cooked food has to be collected while it's fresh/)).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText("Date"), { target: { value: toDateInputValue(addDays(new Date(), 3)) } });
+    fireEvent.change(screen.getByLabelText("Time"), { target: { value: "10:00" } });
+    await user.click(screen.getByRole("button", { name: "Continue" }));
+    expect(screen.getByText(/^Cooked food has to be picked up by/)).toBeInTheDocument();
+
+    const pickup = inHours(2);
+    fireEvent.change(screen.getByLabelText("Date"), { target: { value: toDateInputValue(pickup) } });
+    fireEvent.change(screen.getByLabelText("Time"), { target: { value: toTimeInputValue(pickup) } });
     await user.click(screen.getByRole("button", { name: "Continue" }));
 
     // Delivery
@@ -100,7 +145,7 @@ describe("donating", () => {
     expect(savedDonations()[0]).toMatchObject({
       recipient: { id: "full-plate", name: "Full Plate Foundation" },
       phone: "98765 43210",
-      date: tomorrow,
+      date: toDateInputValue(inHours(2)),
       deliveryMode: "Self Delivery",
     });
   });
@@ -173,7 +218,7 @@ describe("activity", () => {
 });
 
 describe("profile", () => {
-  it("clears demo data and signs out", async () => {
+  it("clears demo data, and has no sign-out in demo mode", async () => {
     vi.spyOn(window, "confirm").mockReturnValue(true);
     const { user } = renderApp({
       route: "/profile",
@@ -188,9 +233,7 @@ describe("profile", () => {
 
     await user.click(screen.getByRole("button", { name: "Clear demo data" }));
     expect(savedDonations()).toEqual([]);
-
-    await user.click(screen.getByRole("button", { name: "Sign out" }));
-    expect(screen.getByRole("button", { name: "Try the demo" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Sign out" })).not.toBeInTheDocument();
   });
 });
 

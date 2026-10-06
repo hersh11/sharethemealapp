@@ -4,6 +4,7 @@ export const AuthContext = createContext(null);
 export const NgoContext = createContext(null);
 export const DonationsContext = createContext(null);
 export const DonationDraftContext = createContext(null);
+export const LocationContext = createContext(null);
 
 const useRequiredContext = (context, hookName) => {
   const value = useContext(context);
@@ -19,3 +20,4 @@ export const useAuth = () => useRequiredContext(AuthContext, "useAuth");
 export const useNgos = () => useRequiredContext(NgoContext, "useNgos");
 export const useDonations = () => useRequiredContext(DonationsContext, "useDonations");
 export const useDonationDraft = () => useRequiredContext(DonationDraftContext, "useDonationDraft");
+export const useUserLocation = () => useRequiredContext(LocationContext, "useUserLocation");

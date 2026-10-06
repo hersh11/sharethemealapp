@@ -2,13 +2,19 @@
   position: sticky;
   top: 0;
   z-index: 2;
+  border-bottom: 1px solid var(--color-border);
+  background: rgb(255 255 255 / 90%);
+  backdrop-filter: blur(14px);
+}
+
+.inner {
   display: flex;
   align-items: center;
   gap: 8px;
+  max-width: 1120px;
   min-height: 64px;
+  margin-inline: auto;
   padding: 10px 16px;
-  border-bottom: 1px solid var(--color-border);
-  background: var(--color-surface);
 }
 
 .back {
@@ -43,4 +49,15 @@
   font-size: 13px;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+@media (min-width: 960px) {
+  .inner {
+    min-height: 76px;
+    padding: 14px 40px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
 }

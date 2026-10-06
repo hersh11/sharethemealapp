@@ -19,8 +19,18 @@
   font-weight: 600;
 }
 
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 .card {
   display: flex;
+  height: 100%;
   flex-direction: column;
   gap: 12px;
   padding: 16px;

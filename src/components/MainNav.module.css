@@ -1,0 +1,112 @@
+/* Phones: a tab bar fixed to the bottom of the screen. */
+.nav {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 3;
+  padding-bottom: var(--safe-bottom);
+  border-top: 1px solid var(--color-border);
+  background: rgb(255 255 255 / 92%);
+  backdrop-filter: blur(14px);
+}
+
+.brand,
+.note {
+  display: none;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  height: var(--nav-height);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  height: 100%;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.icon {
+  font-size: 22px;
+}
+
+.active {
+  color: var(--color-primary);
+}
+
+/* Laptops and up: a sidebar down the left. */
+@media (min-width: 960px) {
+  .nav {
+    position: sticky;
+    top: 0;
+    right: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    height: 100dvh;
+    padding: 28px 18px;
+    border-top: 0;
+    border-right: 1px solid var(--color-border);
+    background: var(--color-surface);
+    backdrop-filter: none;
+  }
+
+  .brand {
+    display: block;
+    padding: 0 10px;
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    height: auto;
+  }
+
+  .link {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 11px 14px;
+    border-radius: var(--radius-md);
+    font-size: 15px;
+  }
+
+  .link:hover {
+    background: var(--color-surface-muted);
+    color: var(--color-text);
+  }
+
+  .active,
+  .active:hover {
+    background: var(--color-primary-soft);
+    color: var(--color-primary-hover);
+  }
+
+  .icon {
+    font-size: 20px;
+  }
+
+  .note {
+    display: block;
+    margin-top: auto;
+    padding: 14px;
+    border-radius: var(--radius-md);
+    background: var(--color-surface-muted);
+    color: var(--color-text-muted);
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+}

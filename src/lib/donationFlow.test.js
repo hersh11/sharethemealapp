@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { emptyDraft } from "../data/donation";
-import { buildDonation, getBlockingStepPath, validateContactDetails } from "./donationFlow";
+import { buildDonation, getBlockingStepPath, latestPickupTime, validateContactDetails } from "./donationFlow";
 
 // Fixed "now": Monday 5 October 2026, 18:30 local time.
 const now = new Date(2026, 9, 5, 18, 30);
@@ -8,7 +8,8 @@ const now = new Date(2026, 9, 5, 18, 30);
 const completeDraft = {
   ...emptyDraft,
   recipient: { type: "ngo", id: "roti-relay", name: "Roti Relay" },
-  category: "Cooked Food",
+  // Raw food, so these cases test the general date rules; cooked food has its own below.
+  category: "Raw Food",
   meals: ["Dinner"],
   servings: 20,
   address: "12 MG Road, Camp, Pune",
@@ -48,6 +49,34 @@ describe("validateContactDetails", () => {
     const draft = { ...completeDraft, date: "2026-10-05", time: "17:00" };
     expect(validateContactDetails(draft, now).time).toMatch(/passed/);
     expect(validateContactDetails({ ...draft, time: "19:00" }, now).time).toBeUndefined();
+  });
+});
+
+describe("pickup window by food type", () => {
+  const cooked = { ...completeDraft, category: "Cooked Food", preparedHoursAgo: 1 };
+
+  it("only lets cooked food be picked up before it has been out for six hours", () => {
+    // Cooked an hour before 18:30, so it has to go by 23:30 the same day.
+    expect(latestPickupTime(cooked, now)).toEqual(new Date(2026, 9, 5, 23, 30));
+    expect(validateContactDetails({ ...cooked, date: "2026-10-05", time: "21:00" }, now)).toEqual({});
+
+    const tooLate = validateContactDetails({ ...cooked, date: "2026-10-05", time: "23:45" }, now);
+    expect(tooLate.time).toBe("Cooked food has to be picked up by 11:30 pm today.");
+
+    const twoWeeksOut = validateContactDetails({ ...cooked, date: "2026-10-19", time: "09:00" }, now);
+    expect(twoWeeksOut.date).toMatch(/^Cooked food has to be picked up by/);
+  });
+
+  it("still gives food that's near its limit an hour", () => {
+    const old = { ...cooked, preparedHoursAgo: 8 };
+    expect(latestPickupTime(old, now)).toEqual(new Date(2026, 9, 5, 19, 30));
+  });
+
+  it("lets raw and packed food be picked up days later", () => {
+    for (const category of ["Raw Food", "Packed Food"]) {
+      expect(latestPickupTime({ ...completeDraft, category }, now)).toBeNull();
+      expect(validateContactDetails({ ...completeDraft, category, date: "2026-10-15" }, now)).toEqual({});
+    }
   });
 });
 

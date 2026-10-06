@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router";
-import BottomNav from "./BottomNav";
+import MainNav from "./MainNav";
 import styles from "./AppLayout.module.css";
 
 export default function AppLayout() {
@@ -12,10 +12,10 @@ export default function AppLayout() {
 
   return (
     <div className={styles.shell}>
+      <MainNav />
       <main className={styles.main}>
         <Outlet />
       </main>
-      <BottomNav />
     </div>
   );
 }

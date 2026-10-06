@@ -36,7 +36,7 @@ export default function ChooseCategory() {
       <title>Choose a category · ShareTheMeal</title>
       <PageHeader backTo={backTo} subtitle={stepSubtitle(1, draft)} title="What are you donating?" />
       <div className={shared.page}>
-        <ul className={shared.list}>
+        <ul className={shared.cardGrid}>
           {categoryOptions.map((option) => (
             <li key={option.value}>
               <ImageOption

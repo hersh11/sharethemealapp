@@ -4,7 +4,31 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
   padding: 20px 20px 32px;
+}
+
+/* Forms and single-column content read better at a limited width. */
+.narrow {
+  max-width: 680px;
+}
+
+/* Cards that flow into as many columns as fit. */
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 14px;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 960px) {
+  .page {
+    gap: 32px;
+    padding: 32px 40px 56px;
+  }
 }
 
 .intro {

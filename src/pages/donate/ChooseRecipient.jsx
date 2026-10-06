@@ -46,7 +46,7 @@ export default function ChooseRecipient() {
         ) : null}
 
         <p className={shared.intro}>Where should your food go?</p>
-        <ul className={shared.list}>
+        <ul className={shared.cardGrid}>
           {recipientOptions.map((option) => (
             <li key={option.id}>
               <ImageOption
